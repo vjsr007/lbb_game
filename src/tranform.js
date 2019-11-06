@@ -19,8 +19,6 @@ export default class Transform{
      * @param {float} treshHoldScore for determining whether to update or no
      */
     updateKeypoints(_keypoints, treshHoldScore){
-        console.log('nose', _keypoints[0]);
-        console.log('position', _keypoints[0].position);
         this.keypoints = {};
         _keypoints.forEach(({ score, part, position }) => {
             if (score > treshHoldScore) this.keypoints[part] = position;
