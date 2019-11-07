@@ -77,7 +77,7 @@ function toTuple({y, x}) {
 
 export function drawPoint(ctx, y, x, r, color) {
   ctx.beginPath();
-  ctx.arc(x, y, r, 0, 2 * Math.PI);
+  ctx.arc(ctx.canvas.width - x, y, r, 0, 2 * Math.PI);
   ctx.fillStyle = color;
   ctx.fill();
 }

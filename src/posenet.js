@@ -127,6 +127,8 @@ export default class PoseNet{
       // and draw the resulting skeleton and keypoints if over certain confidence
       // scores
       poses.forEach(({score, keypoints}) => {
+        minPoseConfidence = .1;
+        minPartConfidence = .2;
         if (score >= minPoseConfidence) {
           self.transform.updateKeypoints(keypoints, minPartConfidence);
           self.transform.head();

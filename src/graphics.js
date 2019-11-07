@@ -51,12 +51,18 @@ export default class GraphicsEngine {
                 sphere.position.y = 6 + data.head.y;
                 sphere.position.z = 5;
 
-                lookAtCtl.update();
+                console.log('data.rightShoulder', data.rightShoulder);
+                console.log('data.rightElbow', data.rightElbow);
+                console.log('data.leftShoulder', data.leftShoulder);
+                console.log('data.leftElbow', data.leftElbow);
+                const bias1 = 0;
+                const bias2 = 0;
+                right_shoulder_bone.rotation = new BABYLON.Vector3(0, 1.5 * (data.rightShoulder + bias1), 0);
+                right_arm_bone.rotation = new BABYLON.Vector3(0, data.rightElbow + bias2, 0);
+                left_shoulder_bone.rotation = new BABYLON.Vector3(0, -1.5 * (data.leftShoulder + bias1), 0);
+                left_arm_bone.rotation = new BABYLON.Vector3(0, (-data.leftElbow - bias2), 0);
 
-                right_shoulder_bone.rotation = new BABYLON.Vector3(0, 1.5 * data.rightShoulder, 0);
-                right_arm_bone.rotation = new BABYLON.Vector3(0, data.rightElbow, 0);
-                left_shoulder_bone.rotation = new BABYLON.Vector3(0, -1.5 * data.leftShoulder, 0);
-                left_arm_bone.rotation = new BABYLON.Vector3(0, -data.leftElbow, 0);
+                lookAtCtl.update();
             });
         });
     };
