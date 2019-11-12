@@ -3,6 +3,7 @@ import ReactLoading from 'react-loading';
 import Joints from './joints';
 import GraphicsEngine from './graphics';
 import PoseNet from './posenet';
+import UserControl from './userControl';
 
 /**
  * React Component for runnign neural networks and 3D graphics
@@ -30,6 +31,7 @@ class App extends React.Component {
         this.joints = new Joints();
         this.graphics_engine = new GraphicsEngine(this.refs.babylon, this.joints);
         this.posenet = new PoseNet(this.joints, this.graphics_engine, this.refs);
+        this.userControl = new UserControl(this.joints);
         await this.posenet.loadNetwork();
         this.setState({loading: false});
         this.posenet.startPrediction().then((webcam) => {

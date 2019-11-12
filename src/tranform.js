@@ -109,6 +109,7 @@ export default class Transform{
             const angle = this.findAngle(this.keypoints[jointA], this.keypoints[jointB], this.keypoints[jointC]);
             const sign = (this.keypoints[jointC].y > this.keypoints[jointB].y) ? 1 : -1;
             this.joints.update(jointB, sign * angle);
+            console.log(jointB, sign * angle)
             return angle;
         }
     }
