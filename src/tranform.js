@@ -13,6 +13,26 @@ export default class Transform{
         this.joints = _joints;
     }
 
+    /*
+        leftAnkle: {x: 415.81812164662875, y: 440.7798974894364}
+        leftEar: {x: 500.4029032785141, y: 303.3018000858767}
+        leftElbow: {x: 515.1193225430144, y: 525.4962490690358}
+        leftEye: {x: 435.03748674800886, y: 278.1692386137372}
+        leftHip: {x: 459.59333130357794, y: 511.1722834843142}
+        leftKnee: {x: 487.0427053726137, y: 22.801362123006975}
+        leftShoulder: {x: 490.00424633694064, y: 479.23638013550277}
+        leftWrist: {x: 447.25615505114604, y: 467.6700992806876}
+        nose: {x: 384.5962940023103, y: 327.36229803775535}
+        rightAnkle: {x: 411.3133946281463, y: 439.3899227394668}
+        rightEar: {x: 269.3439884408439, y: 289.98408336119894}
+        rightElbow: {x: 508.2387367575085, y: 520.2278107520671}
+        rightEye: {x: 335.3771699541738, y: 284.9848706434673}
+        rightHip: {x: 466.99372525345024, y: 503.25030018847275}
+        rightKnee: {x: 490.68397492286294, y: 23.544923804613404}
+        rightShoulder: {x: 139.54024556082047, y: 515.6467897882721}
+        rightWrist: {x: 469.07120641567366, y: 445.87698613623235}
+    */
+
     /**
      * Updates joints data
      * @param {array} _keypoints raw joints data from posenet
@@ -21,7 +41,7 @@ export default class Transform{
     updateKeypoints(_keypoints, treshHoldScore){
         this.keypoints = {};
         _keypoints.forEach(({ score, part, position }) => {
-            if (score > treshHoldScore) this.keypoints[part] = position;
+            if (score >= treshHoldScore) this.keypoints[part] = position;
         });
         this.distance = null;
         this.headCenter = null;
@@ -52,6 +72,12 @@ export default class Transform{
             const right_y = this.keypoints['rightShoulder'].y;
 
             this.shoulderCenter = { 'x': (left_x + right_x) / 2.0, 'y': (left_y + right_y) / 2.0 };
+
+            this.rotateJoint('leftShoulder', 'leftElbow', 'leftWrist');
+            this.rotateJoint('rightShoulder', 'rightElbow', 'rightWrist');
+
+            this.rotateJoint('leftElbow', 'leftShoulder', 'leftHip');
+            this.rotateJoint('rightElbow', 'rightShoulder', 'rightHip');
         }
     }
 
@@ -83,6 +109,7 @@ export default class Transform{
             const angle = this.findAngle(this.keypoints[jointA], this.keypoints[jointB], this.keypoints[jointC]);
             const sign = (this.keypoints[jointC].y > this.keypoints[jointB].y) ? 1 : -1;
             this.joints.update(jointB, sign * angle);
+            console.log(jointB, sign * angle)
             return angle;
         }
     }

@@ -3,6 +3,7 @@ import ReactLoading from 'react-loading';
 import Joints from './joints';
 import GraphicsEngine from './graphics';
 import PoseNet from './posenet';
+import UserControl from './userControl';
 
 /**
  * React Component for runnign neural networks and 3D graphics
@@ -30,6 +31,7 @@ class App extends React.Component {
         this.joints = new Joints();
         this.graphics_engine = new GraphicsEngine(this.refs.babylon, this.joints);
         this.posenet = new PoseNet(this.joints, this.graphics_engine, this.refs);
+        this.userControl = new UserControl(this.joints);
         await this.posenet.loadNetwork();
         this.setState({loading: false});
         this.posenet.startPrediction().then((webcam) => {
@@ -47,14 +49,14 @@ class App extends React.Component {
      */
     render() {
         return (
-            <div id="container" style={{ display: 'flex'}}>
+            <div id="container" style={{ display: 'flex' }}>
                 <canvas ref="babylon" width={500} height={500} />
-                <div id="loader" style={{ display: !this.state.loading ? 'none' : 'block' }}className="float-right">
-                        <h3 id="loadTitle">Tensorflow Model loading ...</h3>
-                        <ReactLoading type="cylon" color="grey" height={'20%'} width={'20%'} id="reactLoader"/>
+                <video ref="video" id="video" playsInline style={{ display: 'none' }}/>
+                <canvas ref="output" width={500} height={500} style={{ display: this.state.webcam ? 'none' : 'none' }}/>
+                <div id="loader" style={{ display: !this.state.loading ? 'none' : 'none' }}>
+                    <h3 id="loadTitle">Tensorflow Model loading ...</h3>
+                    <ReactLoading type="cylon" color="grey" height={'20%'} width={'20%'} id="reactLoader"/>
                 </div>
-                <video ref="video" id="video" playsInline style={{display:'none'}}/>
-                <canvas ref="output" width={500} height={500} style={{ display: this.state.webcam ? 'block' : 'none' }}/>
                 {!this.state.webcam && <WeCamAccess/>}
             </div>
         );
