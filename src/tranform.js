@@ -91,7 +91,6 @@ export default class Transform{
             y = this.shoulderCenter.y - y;
             // normalize (i.e. scale it)
             y = this.map(y,this.distance*1.5,this.distance*2.8,-2,2);
-            // console.log(140/this.distance,260/this.distance);
             this.joints.update('head', { x, y });
             return { x, y };
         }
@@ -109,7 +108,6 @@ export default class Transform{
             const angle = this.findAngle(this.keypoints[jointA], this.keypoints[jointB], this.keypoints[jointC]);
             const sign = (this.keypoints[jointC].y > this.keypoints[jointB].y) ? 1 : -1;
             this.joints.update(jointB, sign * angle);
-            console.log(jointB, sign * angle)
             return angle;
         }
     }

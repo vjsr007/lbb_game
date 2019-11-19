@@ -5,7 +5,7 @@
 export default class Joints{
 
     /** the class constructor */
-    constructor(){
+    constructor(_updateState){
         this.data = {
             'rightShoulder': 0,
             'rightElbow': 0,
@@ -15,11 +15,14 @@ export default class Joints{
                 'x': 0, 'y': 0
             }
         }
+        this.updateState = _updateState;
     }
 
     /** joint data setter */
-    update(joint, val){
+    update = (joint, val) => {
         this.data[joint] = val;
+        const time = (new Date()).getTime();
+        this.updateState(time);
     }
 
     /** joint data getter */
