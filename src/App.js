@@ -58,8 +58,8 @@ class App extends React.Component {
      */
     render() {
         return (
-            <div id="container" style={{ display: 'flex' }}>
-                <canvas ref="babylon" width={500} height={500} />
+            <div id="container" style={{ display: 'flex', padding: '5px'  }}>
+                <canvas ref="babylon" width={500} height={500} style={{ display: 'none' }} />
                 <video ref="video" id="video" playsInline style={{ display: 'none' }}/>
                 <canvas ref="output" width={500} height={500} style={{ display: this.state.webcam ? 'none' : 'none' }}/>
                 <div id="loader" style={{ display: !this.state.loading ? 'none' : 'none' }}>
@@ -69,7 +69,7 @@ class App extends React.Component {
                 {!this.state.webcam && <WeCamAccess/>}
                 {
                 this.joints &&
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', padding: '5px' }}>
                     <label htmlFor="head_x">Head x</label>
                     <input type="text" id="head_x" value={this.joints.data.head.x} readOnly={true} onChange={this.changeInput} />
                     <label htmlFor="head_y">Head y</label>
