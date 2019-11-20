@@ -59,9 +59,9 @@ class App extends React.Component {
     render() {
         return (
             <div id="container" style={{ display: 'flex', padding: '5px'  }}>
-                <canvas ref="babylon" width={500} height={500} style={{ display: 'none' }} />
+                <canvas ref="babylon" width={500} height={500} style={{ display: 'block' }} />
                 <video ref="video" id="video" playsInline style={{ display: 'none' }}/>
-                <canvas ref="output" width={500} height={500} style={{ display: this.state.webcam ? 'none' : 'none' }}/>
+                <canvas ref="output" width={500} height={500} style={{ display: this.state.webcam ? 'block' : 'none' }}/>
                 <div id="loader" style={{ display: !this.state.loading ? 'none' : 'none' }}>
                     <h3 id="loadTitle">Tensorflow Model loading ...</h3>
                     <ReactLoading type="cylon" color="grey" height={'20%'} width={'20%'} id="reactLoader"/>

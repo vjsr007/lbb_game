@@ -51,7 +51,7 @@ export default class GraphicsEngine {
                 sphere.position.y = 6 + data.head.y;
                 sphere.position.z = 5;
 
-                const bias1 = 0;
+                const bias1 = 2.7;
                 const bias2 = 0;
                 right_shoulder_bone.rotation = new BABYLON.Vector3(0, 1.5 * (data.rightShoulder + bias1), 0);
                 right_arm_bone.rotation = new BABYLON.Vector3(0, data.rightElbow + bias2, 0);
