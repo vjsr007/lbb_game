@@ -19,6 +19,7 @@ class App extends React.Component {
         this.state = {
             loading: true,
             webcam: true,
+            timeChange: 0
         }
     }
 
@@ -28,10 +29,10 @@ class App extends React.Component {
      * initializes neural network model, graphics engine, and webcam.
      */
     async componentDidMount() {
-        this.joints = new Joints();
-        this.graphics_engine = new GraphicsEngine(this.refs.babylon, this.joints);
-        this.posenet = new PoseNet(this.joints, this.graphics_engine, this.refs);
-        this.userControl = new UserControl(this.joints);
+        this.joints = new Joints(this.updateState);
+        this.graphics_engine = new GraphicsEngine(this.refs.babylon, this.joints, this.state);
+        this.posenet = new PoseNet(this.joints, this.graphics_engine, this.refs, this.state);
+        this.userControl = new UserControl(this.joints, this.state);
         await this.posenet.loadNetwork();
         this.setState({loading: false});
         this.posenet.startPrediction().then((webcam) => {
@@ -39,9 +40,17 @@ class App extends React.Component {
         });
     }
 
+    updateState = (time) => {
+        this.setState({timeChange: time});
+    }
+
     /** Asks for webcam access if ti was denied */
     askWebCam(){
         this.posenet.startPrediction();
+    }
+
+    changeInput = (event) =>{
+        
     }
 
     /**
@@ -49,8 +58,8 @@ class App extends React.Component {
      */
     render() {
         return (
-            <div id="container" style={{ display: 'flex' }}>
-                <canvas ref="babylon" width={500} height={500} />
+            <div id="container" style={{ display: 'flex', padding: '5px'  }}>
+                <canvas ref="babylon" width={500} height={500} style={{ display: 'none' }} />
                 <video ref="video" id="video" playsInline style={{ display: 'none' }}/>
                 <canvas ref="output" width={500} height={500} style={{ display: this.state.webcam ? 'none' : 'none' }}/>
                 <div id="loader" style={{ display: !this.state.loading ? 'none' : 'none' }}>
@@ -58,6 +67,25 @@ class App extends React.Component {
                     <ReactLoading type="cylon" color="grey" height={'20%'} width={'20%'} id="reactLoader"/>
                 </div>
                 {!this.state.webcam && <WeCamAccess/>}
+                {
+                this.joints &&
+                <div style={{ display: 'flex', flexDirection: 'column', padding: '5px' }}>
+                    <label htmlFor="head_x">Head x</label>
+                    <input type="text" id="head_x" value={this.joints.data.head.x} readOnly={true} onChange={this.changeInput} />
+                    <label htmlFor="head_y">Head y</label>
+                    <input type="text" id="head_y" value={this.joints.data.head.y} readOnly={true} onChange={this.changeInput} />
+
+                    <label htmlFor="rightShoulder">Right Shoulder</label>
+                    <input type="text" id="rightShoulder" value={this.joints.data.rightShoulder} readOnly={true} onChange={this.changeInput} />
+                    <label htmlFor="rightElbow">Right Elbow</label>
+                    <input type="text" id="rightElbow" value={this.joints.data.rightElbow} readOnly={true} onChange={this.changeInput} />
+
+                    <label htmlFor="leftShoulder">Left Shoulder</label>
+                    <input type="text" id="leftShoulder" value={this.joints.data.leftShoulder} readOnly={true} onChange={this.changeInput} />
+                    <label htmlFor="leftElbow">Left Elbow</label>
+                    <input type="text" id="leftElbow" value={this.joints.data.leftElbow} readOnly={true} onChange={this.changeInput} />
+                </div>
+                }
             </div>
         );
     }
