@@ -12,6 +12,9 @@ export default class UserControl{
         const joints = this.joints;
         const LEFT = 37, UP = 38, RIGHT = 39, DOWN = 40;
         const A = 65, S = 83, D =  68, W = 87;
+        const I = 73, K = 75;
+
+        const value = joints.data.bones[joints.data.currentBone] ? joints.data.bones[joints.data.currentBone] : 0;
 
         switch(event.keyCode){
             case LEFT:
@@ -37,6 +40,12 @@ export default class UserControl{
                 break;
             case S:
                 joints.update('leftElbow', joints.data['leftElbow'] + .1);
+                break;
+            case I:
+                joints.updateBone(joints.data.currentBone, value + .1);
+                break;
+            case K:
+                joints.updateBone(joints.data.currentBone, value - .1);
                 break;
             default:
         }

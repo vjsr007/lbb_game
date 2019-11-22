@@ -29,10 +29,10 @@ class App extends React.Component {
      * initializes neural network model, graphics engine, and webcam.
      */
     async componentDidMount() {
-        this.joints = new Joints(this.updateState);
-        this.graphics_engine = new GraphicsEngine(this.refs.babylon, this.joints, this.state);
-        this.posenet = new PoseNet(this.joints, this.graphics_engine, this.refs, this.state);
-        this.userControl = new UserControl(this.joints, this.state);
+        this.joints = new Joints();
+        this.graphics_engine = new GraphicsEngine(this.refs.babylon, this.joints, this.updateState);
+        this.posenet = new PoseNet(this.joints, this.graphics_engine, this.refs);
+        this.userControl = new UserControl(this.joints);
         await this.posenet.loadNetwork();
         this.setState({loading: false});
         this.posenet.startPrediction().then((webcam) => {
@@ -52,6 +52,10 @@ class App extends React.Component {
     changeInput = (event) =>{
         
     }
+
+    changeInputBone = (event) =>{
+        if(event.target.value > 0 && event.target.value < 58) this.joints.data.currentBone = event.target.value;
+    }    
 
     /**
      * React Component's render method for rendering HTML components
@@ -84,6 +88,12 @@ class App extends React.Component {
                     <input type="text" id="leftShoulder" value={this.joints.data.leftShoulder} readOnly={true} onChange={this.changeInput} />
                     <label htmlFor="leftElbow">Left Elbow</label>
                     <input type="text" id="leftElbow" value={this.joints.data.leftElbow} readOnly={true} onChange={this.changeInput} />
+
+                    <label htmlFor="bone">Bone</label>
+                    <input type="number" id="bone" value={this.joints.data.currentBone} onChange={this.changeInputBone} />
+
+                    <label htmlFor="boneValue">Value</label>
+                    <input type="number" id="boneValue" value={this.joints.data.bones[this.joints.data.currentBone] ? this.joints.data.bones[this.joints.data.currentBone]: 0} onChange={this.changeInputBone} />
                 </div>
                 }
             </div>

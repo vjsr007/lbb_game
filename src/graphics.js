@@ -10,7 +10,7 @@ export default class GraphicsEngine {
      * @param {HTMLCanvasElement} _canvas 
      * @param {Joints} _joints 
      */
-    constructor(_canvas, _joints){
+    constructor(_canvas, _joints, _updateState){
         this.canvas = _canvas;
         this.engine = new BABYLON.Engine(this.canvas, true);
         this.engine.displayLoadingUI();
@@ -18,6 +18,7 @@ export default class GraphicsEngine {
         this.joints = _joints;
         this.initScene();
         this.engine.hideLoadingUI();
+        this.updateState = _updateState;
     }
 
     /**
@@ -41,6 +42,8 @@ export default class GraphicsEngine {
             const left_shoulder_bone = skeleton.bones[32];
             const left_arm_bone = skeleton.bones[33];
 
+            console.log(skeleton.bones);
+
             const lookAtCtl = new BABYLON.BoneLookController(mesh, head_bone, sphere.position, { adjustYaw: Math.PI * .5, adjustRoll: Math.PI * .5 });
 
             this.scene.registerBeforeRender(() => {
@@ -58,7 +61,15 @@ export default class GraphicsEngine {
                 left_shoulder_bone.rotation = new BABYLON.Vector3(0, -1.5 * (data.leftShoulder + bias1), 0);
                 left_arm_bone.rotation = new BABYLON.Vector3(0, (-data.leftElbow - bias2), 0);
 
+                if(data.bones[data.currentBone]){
+                    skeleton.bones[data.currentBone].rotation = new BABYLON.Vector3(0, data.bones[data.currentBone], 0);
+                }
+
                 lookAtCtl.update();
+
+                const time = (new Date()).getTime();
+                this.updateState(time);
+
             });
         });
     };
