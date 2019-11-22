@@ -42,6 +42,10 @@ export default class GraphicsEngine {
                 path = "./Scenes/Dude/";
                 file = "Dude.babylon";
                 break;
+            case "vincent":
+                    path = "./Scenes/Vincent/";
+                    file = "Vincent.babylon";
+                    break;
             default:
                 path = "./Scenes/OldMan/";
                 file = "oldman.babylon";
@@ -51,7 +55,7 @@ export default class GraphicsEngine {
         BABYLON.SceneLoader.ImportMesh("", path, file, this.scene, (newMeshes, particleSystems, skeletons) => {
             const mesh = newMeshes[0];
             const skeleton = skeletons[0];
-            mesh.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
+            mesh.scaling = new BABYLON.Vector3(.1,.1, .1);
             mesh.position = new BABYLON.Vector3(0, 0, 0);
 
             let head_bone;
@@ -74,8 +78,15 @@ export default class GraphicsEngine {
                     left_shoulder_bone = skeleton.bones[32];
                     left_arm_bone = skeleton.bones[33];
                     break;
+                case "vincent":
+                    head_bone = skeleton.bones[3];
+                    right_shoulder_bone = skeleton.bones[6];
+                    right_arm_bone = skeleton.bones[7];
+                    left_shoulder_bone = skeleton.bones[15];
+                    left_arm_bone = skeleton.bones[16];
+                    break;
                 default:
-                    head_bone = skeleton.bones[7];
+                    head_bone = skeleton.bones[6];
                     right_shoulder_bone = skeleton.bones[13];
                     right_arm_bone = skeleton.bones[14];
                     left_shoulder_bone = skeleton.bones[32];
@@ -88,20 +99,21 @@ export default class GraphicsEngine {
             const lookAtCtl = new BABYLON.BoneLookController(mesh, head_bone, sphere.position, { adjustYaw: Math.PI * .5, adjustRoll: Math.PI * .5 });
 
             this.scene.registerBeforeRender(() => {
-
                 const { data } = this.joints;
+                if(option!=="oldman"){                   
+                    sphere.position.x = 0 + data.head.x;
+                    sphere.position.y = 6 + data.head.y;
+                    sphere.position.z = 5;
+    
+                    const bias1 = 2.8;
+                    const bias2 = 0;
+                    right_shoulder_bone.rotation = new BABYLON.Vector3(0, 1.5 * (data.rightShoulder + bias1), 0);
+                    right_arm_bone.rotation = new BABYLON.Vector3(0, data.rightElbow + bias2, 0);
+                    left_shoulder_bone.rotation = new BABYLON.Vector3(0, -1.5 * (data.leftShoulder + bias1), 0);
+                    left_arm_bone.rotation = new BABYLON.Vector3(0, (-data.leftElbow - bias2), 0);
 
-                sphere.position.x = 0 + data.head.x;
-                sphere.position.y = 6 + data.head.y;
-                sphere.position.z = 5;
-
-                const bias1 = 2.8;
-                const bias2 = 0;
-                right_shoulder_bone.rotation = new BABYLON.Vector3(0, 1.5 * (data.rightShoulder + bias1), 0);
-                right_arm_bone.rotation = new BABYLON.Vector3(0, data.rightElbow + bias2, 0);
-                left_shoulder_bone.rotation = new BABYLON.Vector3(0, -1.5 * (data.leftShoulder + bias1), 0);
-                left_arm_bone.rotation = new BABYLON.Vector3(0, (-data.leftElbow - bias2), 0);
-
+                }
+    
                 if(data.bones[data.currentBone]){
                     skeleton.bones[data.currentBone].rotation = new BABYLON.Vector3(0, data.bones[data.currentBone], 0);
                 }
@@ -110,7 +122,6 @@ export default class GraphicsEngine {
 
                 const time = (new Date()).getTime();
                 this.updateState(time);
-
             });
         });
     };
