@@ -30,17 +30,58 @@ export default class GraphicsEngine {
         this.scene.clearColor = new BABYLON.Color3(0.5, 0.8, 0.5);
         this.setCamera();
         const sphere = BABYLON.MeshBuilder.CreateSphere('', { diameter: .0001 }, this.scene);
-        BABYLON.SceneLoader.ImportMesh("", "./Scenes/Dude/", "Dude.babylon", this.scene, (newMeshes, particleSystems, skeletons) => {
+        const option = "dude";
+        let path;
+        let file;
+        switch(option){
+            case "oldman":
+                path = "./Scenes/OldMan/";
+                file = "oldman.babylon";
+                break;
+            case "dude":
+                path = "./Scenes/Dude/";
+                file = "Dude.babylon";
+                break;
+            default:
+                path = "./Scenes/OldMan/";
+                file = "oldman.babylon";
+                break;
+        }
+
+        BABYLON.SceneLoader.ImportMesh("", path, file, this.scene, (newMeshes, particleSystems, skeletons) => {
             const mesh = newMeshes[0];
             const skeleton = skeletons[0];
             mesh.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
             mesh.position = new BABYLON.Vector3(0, 0, 0);
 
-            const head_bone = skeleton.bones[7];
-            const right_shoulder_bone = skeleton.bones[13];
-            const right_arm_bone = skeleton.bones[14];
-            const left_shoulder_bone = skeleton.bones[32];
-            const left_arm_bone = skeleton.bones[33];
+            let head_bone;
+            let right_shoulder_bone;
+            let right_arm_bone;
+            let left_shoulder_bone;
+            let left_arm_bone;
+            switch(option){
+                case "oldman":
+                    head_bone = skeleton.bones[3];
+                    right_shoulder_bone = skeleton.bones[6];
+                    right_arm_bone = skeleton.bones[7];
+                    left_shoulder_bone = skeleton.bones[15];
+                    left_arm_bone = skeleton.bones[16];
+                    break;
+                case "dude":
+                    head_bone = skeleton.bones[7];
+                    right_shoulder_bone = skeleton.bones[13];
+                    right_arm_bone = skeleton.bones[14];
+                    left_shoulder_bone = skeleton.bones[32];
+                    left_arm_bone = skeleton.bones[33];
+                    break;
+                default:
+                    head_bone = skeleton.bones[7];
+                    right_shoulder_bone = skeleton.bones[13];
+                    right_arm_bone = skeleton.bones[14];
+                    left_shoulder_bone = skeleton.bones[32];
+                    left_arm_bone = skeleton.bones[33];
+                    break;
+            }
 
             console.log(skeleton.bones);
 

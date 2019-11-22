@@ -54,7 +54,7 @@ class App extends React.Component {
     }
 
     changeInputBone = (event) =>{
-        if(event.target.value > 0 && event.target.value < 58) this.joints.data.currentBone = event.target.value;
+        if(event.target.value > -1 && event.target.value < 58) this.joints.data.currentBone = event.target.value;
     }    
 
     /**
