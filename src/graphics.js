@@ -28,9 +28,12 @@ export default class GraphicsEngine {
     initScene(){
         this.scene = new BABYLON.Scene(this.engine);
         this.scene.clearColor = new BABYLON.Color3(0.5, 0.8, 0.5);
+
+        this.scene.clearColor = new BABYLON.Color3(0.75,0.75,0.75);
+        this.scene.ambientColor = new BABYLON.Color3(1,1,1);
         this.setCamera();
         const sphere = BABYLON.MeshBuilder.CreateSphere('', { diameter: .0001 }, this.scene);
-        const option = "dude";
+        const option = "sinon";
         let path;
         let file;
         switch(option){
@@ -43,12 +46,16 @@ export default class GraphicsEngine {
                 file = "Dude.babylon";
                 break;
             case "vincent":
-                    path = "./Scenes/Vincent/";
-                    file = "Vincent.babylon";
-                    break;
+                path = "./Scenes/Vincent/";
+                file = "Vincent.babylon";
+                break;
+            case "sinon":
+                path = "./Scenes/Sinon/";
+                file = "Sinon.babylon";
+                break;
             default:
-                path = "./Scenes/OldMan/";
-                file = "oldman.babylon";
+                path = "./Scenes/Dude/";
+                file = "Dude.babylon";
                 break;
         }
 
