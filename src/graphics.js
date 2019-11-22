@@ -33,7 +33,7 @@ export default class GraphicsEngine {
         this.scene.ambientColor = new BABYLON.Color3(1,1,1);
         this.setCamera();
         const sphere = BABYLON.MeshBuilder.CreateSphere('', { diameter: .0001 }, this.scene);
-        const option = "sinon";
+        const option = "dude";
         let path;
         let file;
         switch(option){
