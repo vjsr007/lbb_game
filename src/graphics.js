@@ -32,6 +32,34 @@ export default class GraphicsEngine {
         this.scene.clearColor = new BABYLON.Color3(0.75,0.75,0.75);
         this.scene.ambientColor = new BABYLON.Color3(1,1,1);
         this.setCamera();
+
+        this.scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+        this.scene.fogColor = new BABYLON.Color3(0.9, 0.9, 0.85);
+        this.scene.fogDensity = 0.01;
+
+        //skybox		
+        var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, this.scene);
+        
+        var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
+        skyboxMaterial.backFaceCulling = false;
+        
+        //skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("images/cubetexture/skybox", this.scene);
+        //skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+        
+        skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        
+        skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+        
+        skyboxMaterial.disableLighting = true;
+        skybox.material = skyboxMaterial;
+
+        var gmat = new BABYLON.StandardMaterial("mat1", this.scene);
+        gmat.alpha = 1.0;
+        
+        var ground =  BABYLON.Mesh.CreateGround("ground", 100, 100, 20, this.scene);
+        ground.material = gmat;
+        gmat.wireframe = true;
+
         const sphere = BABYLON.MeshBuilder.CreateSphere('', { diameter: .0001 }, this.scene);
         const option = "dude";
         let path;
@@ -62,8 +90,6 @@ export default class GraphicsEngine {
         BABYLON.SceneLoader.ImportMesh("", path, file, this.scene, (newMeshes, particleSystems, skeletons) => {
             const mesh = newMeshes[0];
             const skeleton = skeletons[0];
-            mesh.scaling = new BABYLON.Vector3(.1,.1, .1);
-            mesh.position = new BABYLON.Vector3(0, 0, 0);
 
             let head_bone;
             let right_shoulder_bone;
@@ -72,6 +98,8 @@ export default class GraphicsEngine {
             let left_arm_bone;
             switch(option){
                 case "oldman":
+                    mesh.scaling = new BABYLON.Vector3(.1,.1,.1);
+                    mesh.position = new BABYLON.Vector3(0, 0, 0);
                     head_bone = skeleton.bones[3];
                     right_shoulder_bone = skeleton.bones[6];
                     right_arm_bone = skeleton.bones[7];
@@ -79,6 +107,8 @@ export default class GraphicsEngine {
                     left_arm_bone = skeleton.bones[16];
                     break;
                 case "dude":
+                    mesh.scaling = new BABYLON.Vector3(.1,.1,.1);
+                    mesh.position = new BABYLON.Vector3(0, 0, 0);
                     head_bone = skeleton.bones[7];
                     right_shoulder_bone = skeleton.bones[13];
                     right_arm_bone = skeleton.bones[14];
@@ -86,6 +116,8 @@ export default class GraphicsEngine {
                     left_arm_bone = skeleton.bones[33];
                     break;
                 case "vincent":
+                    mesh.scaling = new BABYLON.Vector3(4,4,4);
+                    mesh.position = new BABYLON.Vector3(0, 0, 0);
                     head_bone = skeleton.bones[3];
                     right_shoulder_bone = skeleton.bones[6];
                     right_arm_bone = skeleton.bones[7];
@@ -93,6 +125,8 @@ export default class GraphicsEngine {
                     left_arm_bone = skeleton.bones[16];
                     break;
                 default:
+                    mesh.scaling = new BABYLON.Vector3(.1,.1,.1);
+                    mesh.position = new BABYLON.Vector3(0, 0, 0);
                     head_bone = skeleton.bones[6];
                     right_shoulder_bone = skeleton.bones[13];
                     right_arm_bone = skeleton.bones[14];
@@ -101,13 +135,13 @@ export default class GraphicsEngine {
                     break;
             }
 
-            console.log(skeleton.bones);
+            console.log(skeleton.bones);        
 
             const lookAtCtl = new BABYLON.BoneLookController(mesh, head_bone, sphere.position, { adjustYaw: Math.PI * .5, adjustRoll: Math.PI * .5 });
 
             this.scene.registerBeforeRender(() => {
                 const { data } = this.joints;
-                if(option!=="oldman"){                   
+                if(option==="dude"){                   
                     sphere.position.x = 0 + data.head.x;
                     sphere.position.y = 6 + data.head.y;
                     sphere.position.z = 5;
@@ -135,9 +169,14 @@ export default class GraphicsEngine {
 
     /** BabylonJS render function that is called every frame */
     render(){
+        this.alpha = 0;
         this.engine.runRenderLoop(() => {
             const self = this;
-            if(self.scene) self.scene.render();
+            if(self.scene){
+                self.scene.render();
+                //self.scene.fogDensity = Math.cos(this.alpha) / 10;
+                //self.alpha += 0.02;
+            }
         });
     }
 
