@@ -8,7 +8,6 @@
     "babylonjs": "^4.0.3",
     "markdown": "^0.5.0",
     "react": "^16.11.0",
-    "react-adal": "^0.5.0",
     "react-dom": "^16.11.0",
     "react-loading": "^2.0.3",
     "react-scripts": "3.2.0"

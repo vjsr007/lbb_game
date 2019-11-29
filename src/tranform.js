@@ -13,7 +13,7 @@ export default class Transform{
         this.joints = _joints;
     }
 
-    /*
+    /* POSENET
         leftAnkle: {x: 415.81812164662875, y: 440.7798974894364}
         leftEar: {x: 500.4029032785141, y: 303.3018000858767}
         leftElbow: {x: 515.1193225430144, y: 525.4962490690358}
