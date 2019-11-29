@@ -79,8 +79,8 @@ export default class Transform{
             this.rotateJoint('leftElbow', 'leftShoulder', 'leftHip');
             this.rotateJoint('rightElbow', 'rightShoulder', 'rightHip');
 
-            this.rotateJoint('rightHip', 'rightLeg', 'rightKnee');
-            this.rotateJoint('leftHip', 'lefttLeg', 'leftKnee');
+            this.rotateJoint('lefttHip', 'rightHip', 'rightKnee');
+            this.rotateJoint('rightHip', 'lefttHip', 'leftKnee');
 
             this.rotateJoint('rightHip', 'rightKnee', 'lefttHip');
             this.rotateJoint('lefttHip', 'leftKnee', 'rightHip');
@@ -110,10 +110,12 @@ export default class Transform{
      * @returns {float} angle
      */
     rotateJoint(jointA, jointB, jointC){
+
         if (this.keypoints[jointA] && this.keypoints[jointB] && this.keypoints[jointC]){
             const angle = this.findAngle(this.keypoints[jointA], this.keypoints[jointB], this.keypoints[jointC]);
             const sign = (this.keypoints[jointC].y > this.keypoints[jointB].y) ? 1 : -1;
             this.joints.update(jointB, sign * angle);
+
             return angle;
         }
     }

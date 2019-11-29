@@ -102,11 +102,12 @@ export default class GraphicsEngine {
             let hip;
             let right_wrist;
             let left_wrist;
-            let right_leg;
+            
+            let right_hip;
             let right_knee;
             let right_ankle;
 
-            let left_leg;
+            let left_hip;
             let left_knee;
             let left_ankle;
             
@@ -120,6 +121,16 @@ export default class GraphicsEngine {
                     left_shoulder_bone = skeleton.bones[15];
                     left_arm_bone = skeleton.bones[16];
                     hip = skeleton.bones[3];
+
+                    right_wrist = skeleton.bones[4];
+                    left_wrist = skeleton.bones[4];
+                    right_hip = skeleton.bones[4];
+                    right_knee = skeleton.bones[4];
+                    right_ankle = skeleton.bones[4];
+        
+                    left_hip = skeleton.bones[4];
+                    left_knee = skeleton.bones[4];
+                    left_ankle = skeleton.bones[4];
                     break;
                 case "dude":
                     mesh.scaling = new BABYLON.Vector3(.1,.1,.1);
@@ -133,11 +144,11 @@ export default class GraphicsEngine {
 
                     right_wrist = skeleton.bones[15];
                     left_wrist = skeleton.bones[34];
-                    right_leg = skeleton.bones[50];
+                    right_hip = skeleton.bones[50];
                     right_knee = skeleton.bones[51];
                     right_ankle = skeleton.bones[52];
         
-                    left_leg = skeleton.bones[54];
+                    left_hip = skeleton.bones[54];
                     left_knee = skeleton.bones[55];
                     left_ankle = skeleton.bones[56];
                     break;
@@ -150,16 +161,37 @@ export default class GraphicsEngine {
                     left_shoulder_bone = skeleton.bones[15];
                     left_arm_bone = skeleton.bones[16];
                     hip = skeleton.bones[3];
+
+                    right_wrist = skeleton.bones[4];
+                    left_wrist = skeleton.bones[4];
+                    right_hip = skeleton.bones[4];
+                    right_knee = skeleton.bones[4];
+                    right_ankle = skeleton.bones[4];
+        
+                    left_hip = skeleton.bones[4];
+                    left_knee = skeleton.bones[4];
+                    left_ankle = skeleton.bones[4];
                     break;
                 default:
                     mesh.scaling = new BABYLON.Vector3(.1,.1,.1);
                     mesh.position = new BABYLON.Vector3(0, 0, 0);
-                    head_bone = skeleton.bones[6];
+                    head_bone = skeleton.bones[7];
                     right_shoulder_bone = skeleton.bones[13];
                     right_arm_bone = skeleton.bones[14];
                     left_shoulder_bone = skeleton.bones[32];
                     left_arm_bone = skeleton.bones[33];
                     hip = skeleton.bones[3];
+
+                    right_wrist = skeleton.bones[15];
+                    left_wrist = skeleton.bones[34];
+                    right_hip = skeleton.bones[50];
+                    right_knee = skeleton.bones[51];
+                    right_ankle = skeleton.bones[52];
+        
+                    left_hip = skeleton.bones[54];
+                    left_knee = skeleton.bones[55];
+                    left_ankle = skeleton.bones[56];
+
                     break;
             }
 
@@ -181,11 +213,11 @@ export default class GraphicsEngine {
                     left_shoulder_bone.rotation = new BABYLON.Vector3(0, -1.5 * (data.leftShoulder + bias1), 0);
                     left_arm_bone.rotation = new BABYLON.Vector3(0, (-data.leftElbow - bias2), 0);
 
-                    right_leg = new BABYLON.Vector3(0, (data.rightLeg - bias2), 0);
-                    right_knee = new BABYLON.Vector3(0, (data.rightKnee - bias2), 0);
+                    right_hip.rotation = new BABYLON.Vector3(0, (data.rightHip - bias2), 0);
+                    right_knee.rotation = new BABYLON.Vector3(0, (data.rightKnee - bias2), 0);
         
-                    left_leg = new BABYLON.Vector3(0, (-data.leftLeg - bias2), 0);
-                    left_knee = new BABYLON.Vector3(0, (-data.leftKnee - bias2), 0);
+                    left_hip.rotation = new BABYLON.Vector3(0, (-data.leftHip - bias2), 0);
+                    left_knee.rotation = new BABYLON.Vector3(0, (-data.leftKnee - bias2), 0);
                 }
     
                 if(data.bones[data.currentBone]){

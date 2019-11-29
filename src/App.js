@@ -89,6 +89,16 @@ class App extends React.Component {
                     <label htmlFor="leftElbow">Left Elbow</label>
                     <input type="text" id="leftElbow" value={this.joints.data.leftElbow} readOnly={true} onChange={this.changeInput} />
 
+                    <label htmlFor="leftHip">Left Hip</label>
+                    <input type="text" id="leftHip" value={this.joints.data.leftHip} readOnly={true} onChange={this.changeInput} />
+                    <label htmlFor="leftKnee">Left Knee</label>
+                    <input type="text" id="leftKnee" value={this.joints.data.leftKnee} readOnly={true} onChange={this.changeInput} />
+
+                    <label htmlFor="rightHip">right Hip</label>
+                    <input type="text" id="rightHip" value={this.joints.data.rightHip} readOnly={true} onChange={this.changeInput} />
+                    <label htmlFor="rightKnee">right Knee</label>
+                    <input type="text" id="rightKnee" value={this.joints.data.rightKnee} readOnly={true} onChange={this.changeInput} />
+
                     <label htmlFor="bone">Bone</label>
                     <input type="number" id="bone" value={this.joints.data.currentBone} onChange={this.changeInputBone} />
 
