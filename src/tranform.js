@@ -78,6 +78,12 @@ export default class Transform{
 
             this.rotateJoint('leftElbow', 'leftShoulder', 'leftHip');
             this.rotateJoint('rightElbow', 'rightShoulder', 'rightHip');
+
+            this.rotateJoint('rightHip', 'rightLeg', 'rightKnee');
+            this.rotateJoint('leftHip', 'lefttLeg', 'leftKnee');
+
+            this.rotateJoint('rightHip', 'rightKnee', 'lefttHip');
+            this.rotateJoint('lefttHip', 'leftKnee', 'rightHip');
         }
     }
 

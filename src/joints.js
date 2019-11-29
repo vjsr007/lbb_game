@@ -11,6 +11,10 @@ export default class Joints{
             'rightElbow': 0,
             'leftShoulder': 0,
             'leftElbow': 0,
+            'rightLeg': 0,
+            'rightKnee': 0,
+            'leftLeg': 0,
+            'leftKnee': 0,
             'head': {
                 'x': 0, 'y': 0
             },

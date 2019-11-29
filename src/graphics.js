@@ -96,6 +96,19 @@ export default class GraphicsEngine {
             let right_arm_bone;
             let left_shoulder_bone;
             let left_arm_bone;
+            //news bonos
+            // 15-30 right fingers
+            // 35-49 left fingers
+            let hip = skeleton.bones[3];
+            let right_wrist = skeleton.bones[15];
+            let left_wrist = skeleton.bones[34];
+            let right_leg = skeleton.bones[50];
+            let right_knee = skeleton.bones[51];
+            let right_ankle = skeleton.bones[52];
+
+            let left_leg = skeleton.bones[54];
+            let left_knee = skeleton.bones[55];
+            let left_ankle = skeleton.bones[56];
             switch(option){
                 case "oldman":
                     mesh.scaling = new BABYLON.Vector3(.1,.1,.1);
@@ -105,6 +118,7 @@ export default class GraphicsEngine {
                     right_arm_bone = skeleton.bones[7];
                     left_shoulder_bone = skeleton.bones[15];
                     left_arm_bone = skeleton.bones[16];
+                    hip = skeleton.bones[3];
                     break;
                 case "dude":
                     mesh.scaling = new BABYLON.Vector3(.1,.1,.1);
@@ -114,6 +128,7 @@ export default class GraphicsEngine {
                     right_arm_bone = skeleton.bones[14];
                     left_shoulder_bone = skeleton.bones[32];
                     left_arm_bone = skeleton.bones[33];
+                    hip = skeleton.bones[3];
                     break;
                 case "vincent":
                     mesh.scaling = new BABYLON.Vector3(4,4,4);
@@ -123,6 +138,7 @@ export default class GraphicsEngine {
                     right_arm_bone = skeleton.bones[7];
                     left_shoulder_bone = skeleton.bones[15];
                     left_arm_bone = skeleton.bones[16];
+                    hip = skeleton.bones[3];
                     break;
                 default:
                     mesh.scaling = new BABYLON.Vector3(.1,.1,.1);
@@ -132,6 +148,7 @@ export default class GraphicsEngine {
                     right_arm_bone = skeleton.bones[14];
                     left_shoulder_bone = skeleton.bones[32];
                     left_arm_bone = skeleton.bones[33];
+                    hip = skeleton.bones[3];
                     break;
             }
 
@@ -153,6 +170,11 @@ export default class GraphicsEngine {
                     left_shoulder_bone.rotation = new BABYLON.Vector3(0, -1.5 * (data.leftShoulder + bias1), 0);
                     left_arm_bone.rotation = new BABYLON.Vector3(0, (-data.leftElbow - bias2), 0);
 
+                    right_leg = new BABYLON.Vector3(0, (data.rightLeg - bias2), 0);
+                    right_knee = new BABYLON.Vector3(0, (data.rightKnee - bias2), 0);
+        
+                    left_leg = new BABYLON.Vector3(0, (-data.leftLeg - bias2), 0);
+                    left_knee = new BABYLON.Vector3(0, (-data.leftKnee - bias2), 0);
                 }
     
                 if(data.bones[data.currentBone]){
